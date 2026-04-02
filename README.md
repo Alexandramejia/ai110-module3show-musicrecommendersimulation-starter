@@ -29,6 +29,45 @@ Some prompts to answer:
 
 You can include a simple diagram or bullet list if helpful.
 
+How The System Works: 
+
+Real-world recommendation systems work by comparing user preferences to available options, then assigning a score based on how well each item matches. My music recommender follows this same idea by analyzing user preferences and ranking songs accordingly.
+
+UserProfile
+The system stores the following user preferences:
+
+Favorite genre
+Favorite mood
+Target energy level (0–1 scale)
+Preference for acoustic music
+Song Features
+
+Each Song in the system is described using:
+
+Genre
+Mood
+Energy
+Acousticness
+Valence
+Tempo
+
+Step 1 — Scoring
+
+Each song is evaluated using a weighted scoring system:
+
+Genre match → 35% (most important)
+Mood match → 25%
+Energy, acousticness, valence, and tempo → scored based on how close they are to the user’s preferences
+
+All feature weights add up to 100%, and the final score is normalized between 0 and 1.
+
+Step 2 — Ranking
+The system scores every song in the catalog
+Songs are sorted from highest to lowest score
+The top 5 songs are recommended
+Songs the user has already heard are excluded
+
+Each recommendation also includes a short explanation of why it was selected.
 ---
 
 ## Getting Started
