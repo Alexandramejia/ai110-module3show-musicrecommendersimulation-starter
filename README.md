@@ -29,45 +29,34 @@ Some prompts to answer:
 
 You can include a simple diagram or bullet list if helpful.
 
-How The System Works: 
+This recommender works by taking what a user likes and comparing it to every song in the catalog. Each song gets a score based on how well it matches, and the top 5 results are returned with a short reason for each pick.
 
-Real-world recommendation systems work by comparing user preferences to available options, then assigning a score based on how well each item matches. My music recommender follows this same idea by analyzing user preferences and ranking songs accordingly.
+**Song features used in the system:**
+- `genre` — the style of music (e.g. lofi, pop, rock, jazz)
+- `mood` — the emotional feel (e.g. happy, chill, intense, moody)
+- `energy` — how high-energy the song feels, from 0.0 to 1.0
+- `valence` — how positive or upbeat it sounds, from 0.0 to 1.0
+- `danceability` — how suited it is for dancing, from 0.0 to 1.0
+- `acousticness` — how acoustic vs. produced it sounds, from 0.0 to 1.0
+- `tempo_bpm` — the speed of the song in beats per minute
 
-UserProfile
-The system stores the following user preferences:
+The system compares a user’s taste profile against every song in the catalog, scores each one, and returns the top 5.
 
-Favorite genre
-Favorite mood
-Target energy level (0–1 scale)
-Preference for acoustic music
-Song Features
+**What the user profile stores:**
+- Favorite genre and favorite mood
+- Numerical targets for energy, valence, danceability, acousticness, and tempo
 
-Each Song in the system is described using:
+**How each song is scored:**
+- Genre match adds 2 points — genre is weighted highest because it is the hardest preference boundary. If someone wants jazz, a rock song is a miss no matter how good the energy match is.
+- Mood match adds 1 point — mood matters but is more forgiving than genre
+- For each numerical feature, the system calculates `1 - abs(song_value - target_value)` and multiplies by a weight. Energy has the biggest weight (1.5) since it is the most immediately noticeable quality. Valence, danceability, acousticness, and tempo add smaller amounts on top.
 
-Genre
-Mood
-Energy
-Acousticness
-Valence
-Tempo
+**How recommendations are chosen:**
+- Every song in the CSV gets scored
+- They are sorted highest to lowest
+- The top 5 are returned, each with a short explanation of why it ranked there
 
-Step 1 — Scoring
-
-Each song is evaluated using a weighted scoring system:
-
-Genre match → 35% (most important)
-Mood match → 25%
-Energy, acousticness, valence, and tempo → scored based on how close they are to the user’s preferences
-
-All feature weights add up to 100%, and the final score is normalized between 0 and 1.
-
-Step 2 — Ranking
-The system scores every song in the catalog
-Songs are sorted from highest to lowest score
-The top 5 songs are recommended
-Songs the user has already heard are excluded
-
-Each recommendation also includes a short explanation of why it was selected.
+**Potential bias:** Genre has a strong pull in this system. A song in the right genre but wrong mood will usually outscore a song with the perfect mood but a different genre — meaning some good matches can get buried. With only 18 songs in the catalog, genres that appear just once (like country or metal) will almost always surface regardless of how poorly the rest of the features match.
 ---
 
 ## Getting Started
