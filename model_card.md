@@ -3,7 +3,7 @@
 ## 1. Model Name  
 
 Give your model a short, descriptive name.  
-Example: **VibeFinder 1.0**  
+SoulMusic 
 
 ---
 
@@ -16,6 +16,12 @@ Prompts:
 - What kind of recommendations does it generate  
 - What assumptions does it make about the user  
 - Is this for real users or classroom exploration  
+
+SoulMusic is a music recommender that suggests songs based on your mood, favorite genre, and how you want a song to feel — things like energy level, how danceable it is, and how fast or slow it should be. It generates a ranked list of the top 5 songs from the catalog that best match what you are looking for.
+
+The system assumes the user already knows what kind of music they like and can describe it — it does not learn from listening history or past behavior. It also assumes there is a song in the catalog that is a reasonable match, which is not always true given how small the dataset is.
+
+This app is meant for classroom exploration, not real users. It is a learning project built to understand how recommender systems work under the hood. It has known limitations — like a small catalog and genre bias — so it should not be used to actually guide someone's music taste in a real-world setting.
 
 ---
 
@@ -32,6 +38,12 @@ Prompts:
 
 Avoid code here. Pretend you are explaining the idea to a friend who does not program.
 
+Every song in the catalog gets a score based on how well it matches what a user says they like. The system looks at genre, mood, energy, how danceable the song is, how positive it sounds (valence), and how fast it is (tempo). The user tells the system their favorite genre and mood, and also sets targets for energy, danceability, and tempo on a scale from 0 to 1.
+
+Genre is worth the most — if a song matches your favorite genre it gets 2 bonus points right away. Mood match gives 1 bonus point. After that, the system checks how close each song's energy, danceability, and valence are to your targets. The closer the match, the more points it adds. Tempo is also checked but only adds a tiny amount.
+
+Once every song is scored, they get sorted from highest to lowest, and the top 5 are shown with a short reason explaining why each one ranked where it did.
+
 ---
 
 ## 4. Data  
@@ -45,6 +57,12 @@ Prompts:
 - Did you add or remove data  
 - Are there parts of musical taste missing in the dataset  
 
+The catalog has 18 songs stored in a CSV file. Each song has a genre, mood, and numerical values for energy, tempo, valence, danceability, and acousticness.
+
+Genres included: pop, lofi, rock, indie pop, ambient, jazz, synthwave, hip-hop, country, classical, metal, r&b, blues, soul, and electronic. Moods included: happy, chill, intense, focused, moody, sad, relaxed, energetic, melancholic, angry, romantic, euphoric, and uplifting.
+
+No songs were added or removed from the original dataset. The catalog is small and mostly covers mainstream western genres — it is missing reggae, Latin, K-pop, funk, and many others. It also only has one or two songs per genre, so variety within a genre is basically zero. The data reflects a pretty narrow slice of musical taste overall.
+
 ---
 
 ## 5. Strengths  
@@ -56,6 +74,12 @@ Prompts:
 - User types for which it gives reasonable results  
 - Any patterns you think your scoring captures correctly  
 - Cases where the recommendations matched your intuition  
+
+The system works best when a user has a clear and specific taste — someone who knows exactly what genre they want and has a strong energy preference. For example, Maya (chill lofi) and Marcus (intense rock) both got results that felt accurate right away because their preferences pointed clearly in one direction and matching songs existed in the catalog.
+
+It also does a good job of showing its reasoning. Every recommendation comes with a breakdown of exactly why each song ranked where it did, which makes it easy to understand and spot when something feels off. That transparency is something a lot of real apps don't give you.
+
+For users whose genre is well represented in the catalog, the top result is almost always a logical pick. The genre and mood bonuses together do a decent job of locking onto the right vibe quickly.
 
 ---
 
@@ -119,10 +143,11 @@ Ideas for how you would improve the model next.
 
 Prompts:  
 
-- Additional features or preferences  
-- Better ways to explain recommendations  
-- Improving diversity among the top results  
-- Handling more complex user tastes  
+Since SoulMusic is still a classroom project with known bugs and limitations, there is a lot of room to grow. I would improve it by adding more music types, letting users save or build their own playlists from their results, and making tempo count more in the scoring so the speed of a song actually affects what gets recommended.
+
+- **Add more music types.** The catalog only has 18 songs and is missing a lot of genres people actually listen to — like reggae, Latin, K-pop, and funk. Adding more variety would make SoulMusic feel less repetitive and more useful for people with different tastes.
+- **Let users save and build playlists.** Right now the system just shows a list and that's it. It would be way more useful if users could save their top results, name a playlist, and come back to it later — more like how a real music app works.
+- **Make tempo count more.** Tempo is almost ignored in the current scoring. Someone who wants slow chill music at 70 BPM should not be getting fast hype songs just because the energy matched. Giving tempo more weight would help SoulMusic understand the vibe better — like the difference between a study playlist and a workout playlist.
 
 ---
 
@@ -136,7 +161,11 @@ Prompts:
 - Something unexpected or interesting you discovered  
 - How this changed the way you think about music recommendation apps  
 
-**Profile Comparisons:**
+I learned that this type of scoring algorithm is probably used in a lot of other apps and websites too — anything with a "recommended for you" feature is likely doing something similar, just with way more data. I also learned that the conditions and rules you set matter a lot depending on what kind of recommendation you are trying to make. Small decisions like how much weight to give genre vs. mood completely change what the user sees.
+
+Something I found interesting was how diverse a single song can actually be. A pop song with a high tempo can still be sad, and a slow quiet song can feel happy — a lot of musical features can go in unexpected directions. That made me realize that labeling music with just one mood or genre is kind of an oversimplification, and a real recommender would need a lot more nuance to get it truly right.
+
+**Profile Comparisons:** 
 
 **Alex (High-Energy Pop) vs. Maya (Chill Lofi)**
 These two got completely different results, which makes sense. Alex wants loud, fast, danceable pop — so she got Sunrise City and Gym Hero. Maya wants slow, quiet, calm music — so she got Library Rain and Midnight Coding. They have nothing in common in their top 5, which is exactly what you'd expect from two people with opposite tastes.
