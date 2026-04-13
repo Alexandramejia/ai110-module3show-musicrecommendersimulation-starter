@@ -11,7 +11,7 @@ Your goal is to:
 - Evaluate what your system gets right and wrong
 - Reflect on how this mirrors real world AI recommenders
 
-SoulMusic is a music recommender that takes a user's taste profile — their favorite genre, mood, and energy preferences — and scores every song in a catalog to find the best matches. Each song gets points based on how closely it lines up with what the user wants, and the top 5 results are returned with a short explanation of why each one ranked where it did. The project helped me understand how scoring rules turn raw data into predictions, where bias can creep in when certain features are weighted too heavily, and how real apps like Spotify likely use similar logic at a much larger scale.
+SoulMusic is a music recommender that takes a user's taste profile: their favorite genre, mood, and energy preferences, and scores every song in a catalog to find the best matches. Each song gets points based on how closely it lines up with what the user wants, and the top 5 results are returned with a short explanation of why each one ranked where it did. The project helped me understand how scoring rules turn raw data into predictions, where bias can creep in when certain features are weighted too heavily, and how real apps like Spotify likely use similar logic at a much larger scale.
 
 ---
 
@@ -301,6 +301,10 @@ A few sentences about what you learned:
 > I learned that this type of scoring algorithm is probably used in a lot of other apps and websites too — anything with a "recommended for you" feature is likely doing something similar, just with way more data. I also learned that the conditions and rules you set matter a lot depending on what kind of recommendation you are trying to make. Small decisions like how much weight to give genre vs. mood completely change what the user sees.
 
 > Something I found interesting was how diverse a single song can actually be. A pop song with a high tempo can still be sad, and a slow quiet song can feel happy — a lot of musical features can go in unexpected directions. That made me realize that labeling music with just one mood or genre is kind of an oversimplification, and a real recommender would need a lot more nuance to get it truly right.
+
+---
+
+```
 
 ---
 
