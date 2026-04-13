@@ -102,6 +102,8 @@ Use this section to document the experiments you ran. For example:
 - What happened when you added tempo or valence to the score
 - How did your system behave for different types of users
 
+I tested six user profiles to evaluate the system. The high-energy pop listener got mostly pop results, though electronic and hip-hop songs crept in due to close energy scores. The chill lofi listener worked best — all three lofi songs ranked in the top three because the genre bonus and numerical targets reinforced each other. For the intense rock listener, a pop song with the "intense" mood label surprisingly outranked a metal song. The adversarial profile with high energy and a sad mood exposed a real weakness: the genre bonus outweighed the mood mismatch, so the top result was a rock song that was not sad at all. When I used a genre not in the catalog like reggae, no song earned the genre bonus and the rankings felt random. Finally, with all targets set to 0.5, the single ambient song dominated just because it was the only one to earn the genre bonus.
+
 ---
 
 ## Limitations and Risks
@@ -116,6 +118,12 @@ Examples:
 
 You will go deeper on this in your model card.
 
+- The catalog only has 18 songs, so the results feel repetitive fast. A few songs like Gym Hero and Rooftop Lights show up across multiple profiles just because no better option exists.
+- Genre gets too much power. If your favorite genre is in the catalog, that song almost always wins — even if the mood or energy is a bad match.
+- Acousticness is tracked but never used in scoring, so two people with totally different texture preferences will get the same results.
+- If your genre is not in the catalog at all (like reggae), the system has nothing personal to offer and just guesses based on numbers.
+- The system does not understand context. It cannot tell the difference between someone who wants chill background music while studying vs. someone who wants slow sad music to cry to — both might have similar settings but want very different things.
+
 ---
 
 ## Reflection
@@ -128,6 +136,10 @@ Write 1 to 2 paragraphs here about what you learned:
 
 - about how recommenders turn data into predictions
 - about where bias or unfairness could show up in systems like this
+
+Building this made me realize that a recommender is really just a point system in disguise. It does not actually "know" what good music is — it just adds up numbers based on rules you set. If you tell it genre is worth 2 points and mood is worth 1, it will follow that math every single time, even when the result feels wrong to a real person. The system is only as smart as the weights you give it, and small choices like making genre worth twice as much as mood end up shaping every single recommendation.
+
+The bias part surprised me the most. I did not expect that a missing genre (like reggae) would give that user a totally different and worse experience than everyone else. Or that a song like Gym Hero — which is really made for working out — would keep showing up for people who just want happy background pop, just because it shares the "pop" label and has high energy. Real apps like Spotify probably have the same problem at a bigger scale, just hidden behind millions of songs. The more I looked at the results, the more I noticed the system was rewarding whatever was easy to measure, not whatever actually matched the vibe.
 
 
 ---
@@ -237,3 +249,51 @@ A few sentences about what you learned:
 - How did building this change how you think about real music recommenders
 - Where do you think human judgment still matters, even if the model seems "smart"
 
+---
+
+## Screenshot outputs 
+
+~ Phase 3 ~ 
+
+The output showing the recommendations (song titles, scores, and reasons): 
+
+![alt text](screenshots/image.png)
+
+
+~ Phase 4 ~
+
+The output for each profile's recommendations:
+
+**Profile: Alex — High-Energy Pop Listener**
+
+![Alex profile recommendations](screenshots/profile_Alex.png)
+
+---
+
+**Profile: Maya — Chill Lofi Listener**
+
+![Maya profile recommendations](screenshots/profile_maya.png)
+
+---
+
+**Profile: Marcus — Deep Intense Rock Listener**
+
+![Marcus profile recommendations](screenshots/profile_Marus.png)
+
+---
+
+**Profile: Jordan — High Energy + Sad Mood (Conflicting / Adversarial)**
+
+![Jordan profile recommendations](screenshots/profile_Jordan.png)
+
+---
+
+**Profile: Riley — Reggae Fan (No Genre Match in Catalog)**
+
+![Riley profile recommendations](screenshots/profile_Riley.png)
+
+---
+
+**Profile: Sam — Perfectly Neutral (All Targets = 0.5)**
+
+![Sam profile recommendations](screenshots/profile_Sam.png)
